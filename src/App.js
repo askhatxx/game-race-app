@@ -15,10 +15,11 @@ export default function App() {
         const sizeArena = getSizeArena();
         const speedBots = 3;
         const speedPlayers = 4;
-        const quantityBots = 3;
-        const quantityPlayers = 1;
+        const quantityBots = 1;
+        const quantityPlayers = 2;
+        const gameOver = false;
 
-        return {sizeArena, speedBots, speedPlayers, quantityBots, quantityPlayers};
+        return {sizeArena, speedBots, speedPlayers, quantityBots, quantityPlayers, gameOver};
     };
 
     const botsCarsList = [
@@ -113,7 +114,47 @@ export default function App() {
         };
     }, []);
 
+    const collisionCheck = (car1, car2) => {
+		if (car1.top - (car2.top + car2.height) < 0 && (car1.top + car1.height) - car2.top > 0) {
+            if (car1.left - (car2.left + car2.width) < 0 && (car1.left + car1.width) - car2.left > 0) {
+                return true;
+			}
+		}
+        
+		return false;
+    };
+    
+    const collision = () => {
+        setBots(prevBots => {
+        setPlayers(prevPlayers => {
+            let lostIndex = new Set();
+
+            prevPlayers.forEach((item, index) => {
+                prevPlayers.forEach((itemCheck, indexCheck) => {
+                    if (index !== indexCheck) {
+                        if (collisionCheck(item, itemCheck)) {lostIndex.add(index);}
+                    }
+                });
+                
+                prevBots.forEach((itemBot, index) => {console.log(lostIndex)
+                    if (collisionCheck(item, itemBot)) {lostIndex.add(index);}
+                });
+            });
+            
+            return prevPlayers.filter((item, index) => {
+                if (lostIndex.has(index)) {
+                    return false;
+                }
+                return true;
+            });
+        });
+        return [...prevBots];
+        });
+    };
+
     const renderGame = () => {
+        collision();
+        
         setBots(prevBots => prevBots.map(item => {
             const top = item.top + config.speedBots;
 
@@ -139,11 +180,12 @@ export default function App() {
 
             return {...item, left, top};
         }));
-
-        config.speedBots += 0.005;
         
-        //requestAnimationFrame(renderGame);
-        setTimeout(renderGame, 1000 / 50);
+        if (!config.gameOver) {
+            config.speedBots += 0.005;
+            //requestAnimationFrame(renderGame);
+            setTimeout(renderGame, 1000 / 30);
+        }
     };
 
     return (
