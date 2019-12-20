@@ -7,16 +7,16 @@ export default class AppClass extends Component {
         super(props);
 
         this.botsCarsList = [
-            {color: '#0b86ec', width: 40, height: 60, left: 0, top: 0, id: 'bot1'},
-            {color: '#0b86ec', width: 40, height: 60, left: 0, top: 0, id: 'bot2'},
-            {color: '#0b86ec', width: 40, height: 60, left: 0, top: 0, id: 'bot3'},
-            {color: '#0b86ec', width: 40, height: 60, left: 0, top: 0, id: 'bot4'},
-            {color: '#0b86ec', width: 40, height: 60, left: 0, top: 0, id: 'bot5'},
+            {color: '#0b86ec', width: 40, height: 60, left: 0, top: 0, type: 'bot', id: 'bot1'},
+            {color: '#0b86ec', width: 40, height: 60, left: 0, top: 0, type: 'bot', id: 'bot2'},
+            {color: '#0b86ec', width: 40, height: 60, left: 0, top: 0, type: 'bot', id: 'bot3'},
+            {color: '#0b86ec', width: 40, height: 60, left: 0, top: 0, type: 'bot', id: 'bot4'},
+            {color: '#0b86ec', width: 40, height: 60, left: 0, top: 0, type: 'bot', id: 'bot5'},
         ];
         this.mainCarsList = [
-            {color: '#ec560b', width: 40, height: 60, left: 0, top: 0, id: 'player1'},
-            {color: '#d2d2d2', width: 40, height: 60, left: 0, top: 0, id: 'player2'},
-            {color: '#c2c2c2', width: 40, height: 60, left: 0, top: 0, id: 'player3'},
+            {color: '#ec560b', width: 40, height: 60, left: 0, top: 0, type: 'player', id: 'player1'},
+            {color: '#d2d2d2', width: 40, height: 60, left: 0, top: 0, type: 'player', id: 'player2'},
+            {color: '#c2c2c2', width: 40, height: 60, left: 0, top: 0, type: 'player', id: 'player3'},
         ];
         const directionInit = [
             {isLeft: false, isRight: false, isTop: false, isBottom: false, id: 'player1'},
@@ -111,19 +111,19 @@ export default class AppClass extends Component {
 
     randomPosition = (item, order) => {
         const left = Math.round((this.config.sizeArena.width - item.width) * Math.random());
-        const top = -120 * order;
+        const top = -180 * order;
 
         return {...item, left, top};
     }
 
     collisionCheck = (car1, car2) => {
-		if (car1.top - (car2.top + car2.height) < 0 && (car1.top + car1.height) - car2.top > 0) {
+        if (car1.top - (car2.top + car2.height) < 0 && (car1.top + car1.height) - car2.top > 0) {
             if (car1.left - (car2.left + car2.width) < 0 && (car1.left + car1.width) - car2.left > 0) {
                 return true;
-			}
-		}
-        
-		return false;
+            }
+        }
+
+        return false;
     }
 
     collision = ({bots, players}) => {        
@@ -143,6 +143,7 @@ export default class AppClass extends Component {
 
             players = players.filter((item, index) => {
                 if (lostIndex.has(index)) {
+                    bots = [...bots, item];
                     return false;
                 }
                 return true;
@@ -153,7 +154,7 @@ export default class AppClass extends Component {
 
     renderGame = () => {
         this.setState(prevState => {
-            const bots = prevState.bots.map(item => {
+            let bots = prevState.bots.map(item => {
                 const top = item.top + this.config.speedBots;
     
                 if (top > this.config.sizeArena.height) {
@@ -161,6 +162,11 @@ export default class AppClass extends Component {
                 }
                 
                 return {...item, top};
+            });
+
+            bots = bots.filter(item => {
+                if (item.type === 'player' && item.top < 0) return false;
+                return true;
             });
             
             const players = prevState.players.map((item) => {
@@ -185,7 +191,7 @@ export default class AppClass extends Component {
             if (result.players.length === 0) {
                 this.config.gameOver = true;
             }
-            console.log(this.config.gameOver);
+            //console.log(this.config.gameOver);
 
             return result;
         });
@@ -220,9 +226,9 @@ const GameWrapper = styled.div`
 
 const GameArena = styled.div`
     width: ${props => props.size.width}px;
-	height: ${props => props.size.height}px;
-	background: #8b8b8b; 
-	position: relative;
-	overflow: hidden;
-	border-radius: 8px;
+    height: ${props => props.size.height}px;
+    background: #8b8b8b; 
+    position: relative;
+    overflow: hidden;
+    border-radius: 8px;
 `;

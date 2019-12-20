@@ -10,8 +10,8 @@ export default function Car({color: colorCar, width: widthCar, height: heightCar
 const CarBox = styled.div`
     background: ${props => props.colorCar};
     width: ${props => props.widthCar}px;
-	height: ${props => props.heightCar}px;
-	border-radius: 8px;
-	position: absolute;
-	text-align: center;
+    height: ${props => props.heightCar}px;
+    border-radius: 8px;
+    position: absolute;
+    text-align: center;
 `;
