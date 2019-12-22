@@ -37,6 +37,7 @@ export default class AppClass extends Component {
             quantityPlayers: 2,
             sizeArena: this.getSizeArena(),
             gameOver: false,
+            gameStart: false,
             speedBots: 3,
             speedPlayers: 4,
         };
@@ -73,7 +74,7 @@ export default class AppClass extends Component {
     componentDidMount() {
         document.addEventListener('keydown', this.keyDown);
         document.addEventListener('keyup', this.keyUp);
-        this.renderGame();
+        
     }
 
     componentWillUnmount() {
@@ -153,8 +154,16 @@ export default class AppClass extends Component {
     }
 
     renderGame = () => {
-        this.setState(prevState => {
-            let bots = prevState.bots.map(item => {
+        this.setState(prevState => {            
+            const result = this.collision({bots: prevState.bots, players: prevState.players});
+
+            if (result.players.length === 0) {
+                this.config.gameOver = true;
+                this.config.gameStart = false;
+                return result;
+            }
+            
+            let bots = result.bots.map(item => {
                 const top = item.top + this.config.speedBots;
     
                 if (top > this.config.sizeArena.height) {
@@ -169,7 +178,7 @@ export default class AppClass extends Component {
                 return true;
             });
             
-            const players = prevState.players.map((item) => {
+            const players = result.players.map((item) => {
                 let {left, top, width, height} = item;
                 const index = this.direction.findIndex(dir => dir.id === item.id);
     
@@ -186,14 +195,8 @@ export default class AppClass extends Component {
                 return {...item, left, top};
             });
 
-            const result = this.collision({bots, players});
-
-            if (result.players.length === 0) {
-                this.config.gameOver = true;
-            }
             //console.log(this.config.gameOver);
-
-            return result;
+            return {bots, players};
         });
         
         if (!this.config.gameOver) {
@@ -203,12 +206,18 @@ export default class AppClass extends Component {
         }
     }
 
+    gameStart = () => {
+        this.config.gameStart = true;
+        this.renderGame();
+    }
+
     render() {
         return (
             <GameWrapper>
                 <GameArena size={this.config.sizeArena}>
                     <MainCars cars={this.state.bots}/>
                     <MainCars cars={this.state.players}/>
+                    {!this.config.gameStart && <div onClick={this.gameStart}>Start</div>}
                 </GameArena>
             </GameWrapper>
         );
