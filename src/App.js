@@ -32,17 +32,25 @@ export default class AppClass extends Component {
             {left: 'KeyH', right: 'KeyK', top: 'KeyU', bottom: 'KeyJ'},
         ];
 
-        this.config = {
+        this.config = this.initConfig();
+
+        this.state = this.initState();
+    }
+
+    initConfig = (qtPlayers = 2) => {
+        return {
             quantityBots: 3,
-            quantityPlayers: 2,
+            quantityPlayers: qtPlayers,
             sizeArena: this.getSizeArena(),
             gameOver: false,
             gameStart: false,
             speedBots: 3,
             speedPlayers: 4,
         };
+    }
 
-        this.state = {
+    initState = () => {
+        return {
             bots: this.initBots(this.config.quantityBots),
             players: this.initPlayers(this.config.quantityPlayers),
         };
@@ -206,9 +214,10 @@ export default class AppClass extends Component {
         }
     }
 
-    gameStart = () => {
+    gameStart = (qtPlayers) => {
+        this.config = this.initConfig(qtPlayers);
         this.config.gameStart = true;
-        this.renderGame();
+        this.setState(this.initState(), this.renderGame);
     }
 
     render() {
@@ -217,7 +226,9 @@ export default class AppClass extends Component {
                 <GameArena size={this.config.sizeArena}>
                     <MainCars cars={this.state.bots}/>
                     <MainCars cars={this.state.players}/>
-                    {!this.config.gameStart && <div onClick={this.gameStart}>Start</div>}
+                    {!this.config.gameStart && <div onClick={() => this.gameStart(1)}>Start 1</div>}
+                    {!this.config.gameStart && <div onClick={() => this.gameStart(2)}>Start 2</div>}
+                    {!this.config.gameStart && <div onClick={() => this.gameStart(3)}>Start 3</div>}
                 </GameArena>
             </GameWrapper>
         );
