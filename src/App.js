@@ -1,6 +1,7 @@
 import React, {Component} from 'react';
 import styled from 'styled-components';
 import MainCars from './components/MainCars';
+import Settings from './components/Settings';
 
 export default class AppClass extends Component {
     constructor(props) {
@@ -229,6 +230,8 @@ export default class AppClass extends Component {
                     {!this.config.gameStart && <div onClick={() => this.gameStart(1)}>Start 1</div>}
                     {!this.config.gameStart && <div onClick={() => this.gameStart(2)}>Start 2</div>}
                     {!this.config.gameStart && <div onClick={() => this.gameStart(3)}>Start 3</div>}
+                    {!this.config.gameStart && 
+                        <Settings controlButtons={['wasd', '↑←↓→', 'uhjk']} gameStart={this.gameStart} />}
                 </GameArena>
             </GameWrapper>
         );
