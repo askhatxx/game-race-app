@@ -20,7 +20,6 @@ export default function Settings({controlButtons, gameStart}) {
 }
 
 const SettingsBox = styled.div`
-    background: #f2f2f2;
     position: absolute;
     top: 50%;
     left: 50%;
