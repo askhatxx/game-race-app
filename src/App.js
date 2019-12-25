@@ -8,16 +8,16 @@ export default class AppClass extends Component {
         super(props);
 
         this.botsCarsList = [
-            {color: '#0b86ec', width: 40, height: 60, left: 0, top: 0, type: 'bot', id: 'bot1'},
-            {color: '#0b86ec', width: 40, height: 60, left: 0, top: 0, type: 'bot', id: 'bot2'},
-            {color: '#0b86ec', width: 40, height: 60, left: 0, top: 0, type: 'bot', id: 'bot3'},
-            {color: '#0b86ec', width: 40, height: 60, left: 0, top: 0, type: 'bot', id: 'bot4'},
+            {color: '#1d95f9', width: 40, height: 60, left: 0, top: 0, type: 'bot', id: 'bot1'},
+            {color: '#1d95f9', width: 40, height: 60, left: 0, top: 0, type: 'bot', id: 'bot2'},
+            {color: '#0065b9', width: 50, height: 80, left: 0, top: 0, type: 'bot', id: 'bot3'},
+            {color: '#0068be', width: 40, height: 60, left: 0, top: 0, type: 'bot', id: 'bot4'},
             {color: '#0b86ec', width: 40, height: 60, left: 0, top: 0, type: 'bot', id: 'bot5'},
         ];
         this.mainCarsList = [
-            {color: '#ec560b', width: 40, height: 60, left: 0, top: 0, type: 'player', id: 'player1'},
-            {color: '#d2d2d2', width: 40, height: 60, left: 0, top: 0, type: 'player', id: 'player2'},
-            {color: '#c2c2c2', width: 40, height: 60, left: 0, top: 0, type: 'player', id: 'player3'},
+            {color: '#f5661f', width: 40, height: 60, left: 0, top: 0, type: 'player', id: 'player1'},
+            {color: '#ce40ff', width: 40, height: 60, left: 0, top: 0, type: 'player', id: 'player2'},
+            {color: '#fc4664', width: 40, height: 60, left: 0, top: 0, type: 'player', id: 'player3'},
         ];
         const directionInit = [
             {isLeft: false, isRight: false, isTop: false, isBottom: false, id: 'player1'},
@@ -38,13 +38,14 @@ export default class AppClass extends Component {
         this.state = this.initState();
     }
 
-    initConfig = (qtPlayers = 2) => {
+    initConfig = (qtPlayers = 3) => {
         return {
             quantityBots: 3,
             quantityPlayers: qtPlayers,
             sizeArena: this.getSizeArena(),
             gameOver: false,
             gameStart: false,
+            distance: 0,
             speedBots: 3,
             speedPlayers: 4,
         };
@@ -66,7 +67,7 @@ export default class AppClass extends Component {
     initPlayers = (quantity) => {
         return this.mainCarsList.slice(0, quantity).map((item, index) => {
             const left = Math.round((this.config.sizeArena.width / (quantity + 1) * (index + 1)) - (item.width / 2));
-            const top = Math.round(this.config.sizeArena.height - item.height - 10);
+            const top = Math.round(this.config.sizeArena.height - item.height - 20);
 
             return {...item, left, top};
         });
@@ -210,6 +211,7 @@ export default class AppClass extends Component {
         
         if (!this.config.gameOver) {
             this.config.speedBots += 0.005;
+            this.config.distance += this.config.speedBots / 10000;
             requestAnimationFrame(this.renderGame);
             //setTimeout(this.renderGame, 1000 / 50);
         }
@@ -227,6 +229,7 @@ export default class AppClass extends Component {
                 <GameArena size={this.config.sizeArena}>
                     <MainCars cars={this.state.bots}/>
                     <MainCars cars={this.state.players}/>
+                    <GameDistance>Distance: {this.config.distance.toFixed(2)}</GameDistance>
                     {!this.config.gameStart && 
                         <Settings controlButtons={['wasd', '↑←↓→', 'uhjk']} gameStart={this.gameStart} />}
                 </GameArena>
@@ -247,8 +250,15 @@ const GameWrapper = styled.div`
 const GameArena = styled.div`
     width: ${props => props.size.width}px;
     height: ${props => props.size.height}px;
-    background: #8b8b8b; 
+    background: #999999;
     position: relative;
     overflow: hidden;
     border-radius: 8px;
+`;
+
+const GameDistance = styled.div` 
+    position: absolute;
+    top: 5px;
+    left: 10px;
+    color: #e8e8e8;
 `;

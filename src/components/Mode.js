@@ -44,6 +44,10 @@ const ModeBox = styled.div`
     .qt-players {
         text-align: center;
         font-size: 2rem;
+
+        @media (max-height: 768px) {
+            font-size: 1.5rem;
+        }
     }
 
     .control-info {
@@ -55,14 +59,14 @@ const ModeBox = styled.div`
             margin-left: 5px;
 
             span {
-                background: #ec560b;
+                background: #f5661f;
                 border-radius: 4px;
                 display: inline-block;
                 margin: 0px 2px 10px;
                 width: 20px;
                 height: 20px;
-                line-height: 18px;
-                font-size: 15px;
+                line-height: 19px;
+                font-size: 14px;
                 text-transform: uppercase;
                 text-align: center;
                 color: #fff;
@@ -72,7 +76,7 @@ const ModeBox = styled.div`
                     width: 16px;
                     height: 16px;
                     line-height: 15px;
-                    font-size: 12px;
+                    font-size: 11px;
                 }
             }
         }
@@ -85,7 +89,7 @@ const ModeBox = styled.div`
         align-self: flex-end;
         border: none;
         border-radius: 6px;
-        padding: 4px;
+        padding: 2px 0 6px;
         font-size: 1.2rem;
         font-family: inherit;
         line-height: 1.2;
@@ -98,7 +102,7 @@ const ModeBox = styled.div`
         }
 
         @media (max-height: 768px) {
-            padding: 3px;
+            padding: 1px 0 4px;
             font-size: 1rem;
         }
     }
