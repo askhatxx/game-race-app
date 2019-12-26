@@ -46,7 +46,7 @@ const ModeBox = styled.div`
         font-size: 2rem;
 
         @media (max-height: 768px) {
-            font-size: 1.5rem;
+            font-size: 1.2rem;
         }
     }
 
@@ -72,7 +72,7 @@ const ModeBox = styled.div`
                 color: #fff;
 
                 @media (max-height: 768px) {
-                    margin: 0px 2px 5px;
+                    margin: 0px 2px 2px;
                     width: 16px;
                     height: 16px;
                     line-height: 15px;
@@ -83,12 +83,12 @@ const ModeBox = styled.div`
     }
 
     .game-start {
-        background: #0fc196;
+        background: #08AD85;
         color: #fff;
         width: 100%;
         border: none;
         border-radius: 6px;
-        padding: 2px 0 6px;
+        padding: 3px 0 6px;
         font-size: 1.2rem;
         font-family: inherit;
         line-height: 1.2;
@@ -97,12 +97,12 @@ const ModeBox = styled.div`
         outline: none;
 
         &:hover {
-            background: #08A27D;
+            background: #039974;
         }
 
         @media (max-height: 768px) {
-            padding: 1px 0 4px;
-            font-size: 1rem;
+            padding: 2px 0 4px;
+            font-size: .9rem;
         }
     }
 `;

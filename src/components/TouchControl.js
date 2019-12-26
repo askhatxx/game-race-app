@@ -53,14 +53,15 @@ const TouchSection = styled.div`
 const TouchBtn = styled.button`
     background: #f2f2f2;
     width: 80px;
-    height: 40px;
+    height: 35px;
     margin: 0px 0;
     border: none;
     border-radius: 6px;
     color: #000;
-    transition: .1s;
+    transition: .2s;
     cursor: pointer;
     outline: none;
+    user-select: none;
 
     &:nth-child(2) {
         margin-top: 10px;

@@ -12,10 +12,8 @@ export default class AppClass extends Component {
             {color: '#1d95f9', width: 40, height: 60, left: 0, top: 0, type: 'bot', id: 'bot1'},
             {color: '#1d95f9', width: 40, height: 60, left: 0, top: 0, type: 'bot', id: 'bot2'},
             {color: '#0065b9', width: 50, height: 80, left: 0, top: 0, type: 'bot', id: 'bot3'},
-            {color: '#0068be', width: 40, height: 60, left: 0, top: 0, type: 'bot', id: 'bot4'},
-            {color: '#0b86ec', width: 40, height: 60, left: 0, top: 0, type: 'bot', id: 'bot5'},
         ];
-        this.mainCarsList = [
+        this.playersCarsList = [
             {color: '#f5661f', width: 40, height: 60, left: 0, top: 0, type: 'player', id: 'player1'},
             {color: '#ce40ff', width: 40, height: 60, left: 0, top: 0, type: 'player', id: 'player2'},
             {color: '#fc4664', width: 40, height: 60, left: 0, top: 0, type: 'player', id: 'player3'},
@@ -66,7 +64,7 @@ export default class AppClass extends Component {
     }
 
     initPlayers = (quantity) => {
-        return this.mainCarsList.slice(0, quantity).map((item, index) => {
+        return this.playersCarsList.slice(0, quantity).map((item, index) => {
             const left = Math.round((this.config.sizeArena.width / (quantity + 1) * (index + 1)) - (item.width / 2));
             const top = Math.round(this.config.sizeArena.height - item.height - 20);
 
@@ -77,7 +75,7 @@ export default class AppClass extends Component {
     getSizeArena = () => {
         const {clientWidth, clientHeight} = document.documentElement;
         const width = clientWidth > 1000 ? 900 : Math.round(clientWidth / 100 * 90);
-        const height = Math.round(clientHeight / 100 * 96 - 100);
+        const height = Math.round(clientHeight / 100 * 96 - 90);
         
         return {width, height};
     }
@@ -205,7 +203,6 @@ export default class AppClass extends Component {
                 return {...item, left, top};
             });
 
-            //console.log(this.config.gameOver);
             return {bots, players};
         });
         
@@ -213,7 +210,7 @@ export default class AppClass extends Component {
             this.config.speedBots += 0.005;
             this.config.distance += this.config.speedBots / 10000;
             requestAnimationFrame(this.renderGame);
-            //setTimeout(this.renderGame, 1000 / 50);
+            //setTimeout(this.renderGame, 1000 / 60);
         }
     }
 
@@ -230,7 +227,9 @@ export default class AppClass extends Component {
                 <GameArena size={this.config.sizeArena}>
                     <MainCars cars={this.state.bots}/>
                     <MainCars cars={this.state.players}/>
-                    <GameDistance>Distance: {this.config.distance.toFixed(2)}</GameDistance>
+                    <GameDistance>
+                        Distance: {this.config.distance.toFixed(2)}
+                    </GameDistance>
                     {!this.config.gameStart && 
                         <Settings controlButtons={['wasd', '↑←↓→', 'uhjk']} gameStart={this.gameStart} />}
                 </GameArena>
