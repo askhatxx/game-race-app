@@ -2,6 +2,7 @@ import React, {Component} from 'react';
 import styled from 'styled-components';
 import MainCars from './components/MainCars';
 import Settings from './components/Settings';
+import TouchControl from './components/TouchControl';
 
 export default class AppClass extends Component {
     constructor(props) {
@@ -19,23 +20,23 @@ export default class AppClass extends Component {
             {color: '#ce40ff', width: 40, height: 60, left: 0, top: 0, type: 'player', id: 'player2'},
             {color: '#fc4664', width: 40, height: 60, left: 0, top: 0, type: 'player', id: 'player3'},
         ];
-        const directionInit = [
-            {isLeft: false, isRight: false, isTop: false, isBottom: false, id: 'player1'},
-            {isLeft: false, isRight: false, isTop: false, isBottom: false, id: 'player2'},
-            {isLeft: false, isRight: false, isTop: false, isBottom: false, id: 'player3'},
-        ];
-
-        this.direction = directionInit.slice();
-
         this.keys  = [
             {left: 'KeyA', right: 'KeyD', top: 'KeyW', bottom: 'KeyS'},
             {left: 'ArrowLeft', right: 'ArrowRight', top: 'ArrowUp', bottom: 'ArrowDown'},
             {left: 'KeyH', right: 'KeyK', top: 'KeyU', bottom: 'KeyJ'},
         ];
 
+        this.direction = this.initDirection();
         this.config = this.initConfig();
-
         this.state = this.initState();
+    }
+
+    initDirection = () => {
+        return [
+            {isLeft: false, isRight: false, isTop: false, isBottom: false, id: 'player1'},
+            {isLeft: false, isRight: false, isTop: false, isBottom: false, id: 'player2'},
+            {isLeft: false, isRight: false, isTop: false, isBottom: false, id: 'player3'},
+        ];
     }
 
     initConfig = (qtPlayers = 3) => {
@@ -76,7 +77,7 @@ export default class AppClass extends Component {
     getSizeArena = () => {
         const {clientWidth, clientHeight} = document.documentElement;
         const width = clientWidth > 1000 ? 900 : Math.round(clientWidth / 100 * 90);
-        const height = Math.round(clientHeight / 100 * 90);
+        const height = Math.round(clientHeight / 100 * 96 - 100);
         
         return {width, height};
     }
@@ -84,7 +85,6 @@ export default class AppClass extends Component {
     componentDidMount() {
         document.addEventListener('keydown', this.keyDown);
         document.addEventListener('keyup', this.keyUp);
-        
     }
 
     componentWillUnmount() {
@@ -218,6 +218,7 @@ export default class AppClass extends Component {
     }
 
     gameStart = (qtPlayers) => {
+        this.direction = this.initDirection();
         this.config = this.initConfig(qtPlayers);
         this.config.gameStart = true;
         this.setState(this.initState(), this.renderGame);
@@ -233,6 +234,11 @@ export default class AppClass extends Component {
                     {!this.config.gameStart && 
                         <Settings controlButtons={['wasd', '↑←↓→', 'uhjk']} gameStart={this.gameStart} />}
                 </GameArena>
+                <TouchControl 
+                    keyDown={this.keyDown} 
+                    keyUp={this.keyUp} 
+                    keys={{left: 'KeyA', right: 'KeyD', top: 'KeyW', bottom: 'KeyS'}} 
+                />
             </GameWrapper>
         );
     }
@@ -243,8 +249,10 @@ const GameWrapper = styled.div`
     height: 100vh;
     background: #0fc196;
     display: flex;
+    flex-direction: column;
     justify-content: center;
     align-items: center;
+    overflow: hidden;
 `;
 
 const GameArena = styled.div`

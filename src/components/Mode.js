@@ -86,7 +86,6 @@ const ModeBox = styled.div`
         background: #0fc196;
         color: #fff;
         width: 100%;
-        align-self: flex-end;
         border: none;
         border-radius: 6px;
         padding: 2px 0 6px;
