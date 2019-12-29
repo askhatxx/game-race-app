@@ -1,8 +1,8 @@
 import React, {Component} from 'react';
-import styled from 'styled-components';
-import MainCars from './components/MainCars';
-import Settings from './components/Settings';
-import TouchControl from './components/TouchControl';
+import {GameWrapper, GameArena, GameDistance} from './AppStyled';
+import ListCars from './components/listCars';
+import Settings from './components/settings';
+import TouchControl from './components/touchControl';
 
 export default class AppClass extends Component {
     constructor(props) {
@@ -225,13 +225,17 @@ export default class AppClass extends Component {
         return (
             <GameWrapper>
                 <GameArena size={this.config.sizeArena}>
-                    <MainCars cars={this.state.bots}/>
-                    <MainCars cars={this.state.players}/>
+                    <ListCars cars={this.state.bots}/>
+                    <ListCars cars={this.state.players}/>
                     <GameDistance>
                         Distance: {this.config.distance.toFixed(2)}
                     </GameDistance>
                     {!this.config.gameStart && 
-                        <Settings controlButtons={['wasd', '↑←↓→', 'uhjk']} gameStart={this.gameStart} />}
+                        <Settings 
+                            controlButtons={['wasd', '↑←↓→', 'uhjk']} 
+                            gameStart={this.gameStart} 
+                        />
+                    }
                 </GameArena>
                 <TouchControl 
                     keyDown={this.keyDown} 
@@ -242,30 +246,3 @@ export default class AppClass extends Component {
         );
     }
 }
-
-const GameWrapper = styled.div`
-    width: 100vw;
-    height: 100vh;
-    background: #0fc196;
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-    overflow: hidden;
-`;
-
-const GameArena = styled.div`
-    width: ${props => props.size.width}px;
-    height: ${props => props.size.height}px;
-    background: #999999;
-    position: relative;
-    overflow: hidden;
-    border-radius: 8px;
-`;
-
-const GameDistance = styled.div` 
-    position: absolute;
-    top: 5px;
-    left: 10px;
-    color: #e8e8e8;
-`;

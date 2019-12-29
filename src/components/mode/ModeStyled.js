@@ -1,28 +1,6 @@
-import React from 'react';
 import styled from 'styled-components';
 
-export default function Mode({controlButtons, gameStart, qtPlayers}) {
-    const listBtn = controlButtons.map(item => {
-        return (
-            <div key={item}>
-                {[...item].map(itemKey => <span key={itemKey}>{itemKey}</span>)}
-            </div>
-        )
-    });
-    return (
-        <ModeBox>
-            <div className='text-players'>Players</div>
-            <div className='qt-players'>{qtPlayers}</div>
-            <div className='control-info'>
-                <div>Control:</div>
-                <div className='control-list'>{listBtn}</div>
-            </div>
-            <button className='game-start' onClick={() => gameStart(qtPlayers)}>Start</button>
-        </ModeBox>
-    );
-}
-
-const ModeBox = styled.div`
+export const ModeBox = styled.div`
     background: #FBC5AA;
     margin: 10px;
     padding: 10px;

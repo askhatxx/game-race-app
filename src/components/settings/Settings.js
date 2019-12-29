@@ -1,6 +1,6 @@
 import React from 'react';
-import styled from 'styled-components';
-import Mode from './Mode';
+import {SettingsBox} from './SettingsStyled';
+import Mode from '../mode';
 
 export default function Settings({controlButtons, gameStart}) {
     return (
@@ -18,14 +18,3 @@ export default function Settings({controlButtons, gameStart}) {
         </SettingsBox>
     );
 }
-
-const SettingsBox = styled.div`
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-    display: flex;
-    flex-wrap: wrap;
-    justify-content: center;
-    width: 100%;
-`;

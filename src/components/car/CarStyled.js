@@ -1,20 +1,6 @@
-import React from 'react';
 import styled from 'styled-components';
 
-export default function Car({color: colorCar, width: widthCar, height: heightCar, left, top}) {
-    return (
-        <CarBox {...{colorCar, widthCar, heightCar}} style={{left: `${left}px`, top: `${top}px`}}>
-            <div className='glass glass-f'></div>
-            <div className='glass glass-b'></div>
-            <div className='wheel wheel-f-l'></div>
-            <div className='wheel wheel-f-r'></div>
-            <div className='wheel wheel-b-l'></div>
-            <div className='wheel wheel-b-r'></div>
-        </CarBox>
-    );
-}
-
-const CarBox = styled.div`
+export const CarBox = styled.div`
     background: ${props => props.colorCar};
     width: ${props => props.widthCar}px;
     height: ${props => props.heightCar}px;
